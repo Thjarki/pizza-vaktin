@@ -10,9 +10,10 @@ class AboutPizzaPlaces extends Component {
             left = !left;
             return (
                 <PizzaPlaceContent
-                    key={place.name}
-                    name={place.name}
+                    key={place.text}
                     text={place.text}
+                    logo={place.logo}
+                    link={place.link}
                     slideLeft={left}
                     />
             )

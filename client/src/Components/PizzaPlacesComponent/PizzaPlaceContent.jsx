@@ -1,13 +1,15 @@
 import React from "react";
 import styles from "./PizzaPlaceContent.module.scss";
 import PropTypes from 'prop-types';
-const PizzaPlaceContent = ({ name, text, slideLeft}) => {
+const PizzaPlaceContent = ({ logo, link, text, slideLeft}) => {
     console.log(slideLeft);
     if (slideLeft) {
         return ( 
             <div>
                 <div className={styles.pizzaPlaceContainer}>
-                    <h2 className={styles.samstarfsnafn}>{name}</h2>
+                    <a href={link}>
+                        <img className={styles.birgjarlogo} src={logo} alt="pizzastadur" draggable="false" />
+                    </a>
                     <p className={styles.pizzaPlacetexti1}>
                         {text}
                     </p>
@@ -22,7 +24,9 @@ const PizzaPlaceContent = ({ name, text, slideLeft}) => {
                     <p className={styles.pizzaPlacetexti2}>
                         {text}
                     </p>
-                    <h2 className={styles.pizzaPlacenafn}>{name}</h2>
+                    <a href={link}>
+                        <img className={styles.birgjarlogo} src={logo} alt="pizzastadur" draggable="false"/>
+                    </a>
                 </div>
             </div> 
         );
@@ -31,7 +35,8 @@ const PizzaPlaceContent = ({ name, text, slideLeft}) => {
     
 }
 PizzaPlaceContent.propTypes = {
-    name: PropTypes.string.isRequired,
+    logo: PropTypes.string,
+    link: PropTypes.string,
     text: PropTypes.string.isRequired,
     slideLeft: PropTypes.bool,
 }
