@@ -7,7 +7,7 @@ const PizzaPlaceContent = ({ logo, link, text, slideLeft}) => {
         return ( 
             <div>
                 <div className={styles.pizzaPlaceContainer}>
-                    <a href={link}>
+                    <a href={link} rel="noopener noreferrer" target="_blank">
                         <img className={styles.birgjarlogo} src={logo} alt="pizzastadur" draggable="false" />
                     </a>
                     <p className={styles.pizzaPlacetexti1}>
@@ -24,7 +24,7 @@ const PizzaPlaceContent = ({ logo, link, text, slideLeft}) => {
                     <p className={styles.pizzaPlacetexti2}>
                         {text}
                     </p>
-                    <a href={link}>
+                    <a href={link} rel="noopener noreferrer" target="_blank">
                         <img className={styles.birgjarlogo} src={logo} alt="pizzastadur" draggable="false"/>
                     </a>
                 </div>
