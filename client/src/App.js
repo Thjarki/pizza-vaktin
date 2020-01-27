@@ -6,7 +6,7 @@ import logo from './logo.svg';
 import './App.scss';
 import PizzaPrices from './Components/PizzaPrices';
 import AboutPizzaPlaces from './Components/AboutPizzaPlaces';
-
+import RandomPizza from './Components/RandomPizza';
 function App() {
   return (
     <Router>
@@ -15,6 +15,7 @@ function App() {
         <Route name="home" exact path="/" component={HomePage} />
         <Route name="pizzaPrices" exact path="/pizzaverd" component={PizzaPrices} />
         <Route name="pizzaStadir" exact path="/pizzaStadir" component={AboutPizzaPlaces} />
+        <Route name="randomPizza" exact path="/randomPizza" component={RandomPizza} />
       </main>
     </Router>
   );
