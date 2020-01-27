@@ -1,30 +1,54 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
-function RandomPizza(){
-    var buttonClicked = false;
-    var pizzas = [];
+class RandomPizza extends Component{
 
-    var componentDidMount = () => {
-        fetch('http://206.189.19.13:5000/api/Pizza', {mode: 'no-cors'})
+    state = {
+        pizzas: [],
+        buttonClicked: false,
+        rPizza: null,
+        rPizzaTopping : null
+    }
+    componentDidMount = () => {
+        fetch('http://206.189.19.13:5000/api/Pizza', {headers: {
+            'Content-Type': 'application/json'
+          },})
         .then(res => res.json())
         .then((data) => {
-            this.setState({pizzas : data})
+            this.setState({ pizzas : data })
         })
         .catch(console.log)
     }
-    var getRandom = () => {
-        componentDidMount();
-        buttonClicked = true;
-        return pizzas;
+    getRandom = () => {
+        console.log(this.state.pizzas.data[1].name)
+        var rand = Math.floor(Math.random() * this.state.pizzas.data.length);
+        var tempToppings = '';
+        console.log(this.state.pizzas.data[rand].toppings)
+        for(var i = 0; i < this.state.pizzas.data[rand].toppings.length; i++){
+            if(i == this.state.pizzas.data[rand].toppings.length - 1){
+                tempToppings += this.state.pizzas.data[rand].toppings[i].name;
+            }
+            else{
+                tempToppings += this.state.pizzas.data[rand].toppings[i].name + ", ";
+            }
+        }
+        this.setState({
+            rPizza: this.state.pizzas.data[rand],
+            buttonClicked: true,
+            rPizzaTopping : tempToppings
+         });
     }
-    return(
+    render (){
+        const { rPizza, buttonClicked, rPizzaTopping } = this.state
+        return(
         <div>
             <h1>Smelltu á takkann til að fá handahófskennda pizzu</h1>
-            <Link onClick={getRandom}>Finna pizzu!</Link>
-            {buttonClicked ? <h2>{getRandom} pungur</h2> : <h2>rassgat</h2>}
+            <Link onClick={this.getRandom}>Finna pizzu!</Link>
+            {buttonClicked ? <h2>{rPizza.name}</h2> : ''}
+            {buttonClicked ? <h2>{rPizzaTopping}</h2> : ''}
         </div>  
     )
+    }
 }
 export default RandomPizza
 
