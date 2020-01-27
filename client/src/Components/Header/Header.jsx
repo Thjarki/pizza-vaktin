@@ -9,7 +9,7 @@ class Header extends Component {
               <ul className={styles.navContainer}>
                   <Link className={styles.navbuttons} to="">Heim</Link>
                   <Link className={styles.navbuttons} to="/pizzaStadir">Pizza staðir</Link>
-                  <Link className={styles.navbuttons} to="/starfsmenn">Tjekklisti</Link>
+                  <Link className={styles.navbuttons} to="/randomPizza">Random Pizza</Link>
                   <Link className={styles.navbuttons} to="/samstarfsadilar">Um okkur</Link>
                   <Link className={styles.navbuttons} to="/birgjar">Innskráning</Link>
               </ul>
