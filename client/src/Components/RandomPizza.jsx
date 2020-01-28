@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
+
+// TODO: gera styling, bæta við að sjá hvaða staður er með pizzuna, bæta við að geta valið hvort þú villt heimsennt eða ekki, geta valið Akureyri eða Reykjavík
 class RandomPizza extends Component{
 
     state = {
@@ -10,9 +12,7 @@ class RandomPizza extends Component{
         rPizzaTopping : null
     }
     componentDidMount = () => {
-        fetch('http://206.189.19.13:5000/api/Pizza', {headers: {
-            'Content-Type': 'application/json'
-          },})
+        fetch('http://206.189.19.13:5000/api/Pizza')
         .then(res => res.json())
         .then((data) => {
             this.setState({ pizzas : data })
@@ -46,6 +46,7 @@ class RandomPizza extends Component{
             <Link onClick={this.getRandom}>Finna pizzu!</Link>
             {buttonClicked ? <h2>{rPizza.name}</h2> : ''}
             {buttonClicked ? <h2>{rPizzaTopping}</h2> : ''}
+            
         </div>  
     )
     }
