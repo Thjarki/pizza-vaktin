@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import styles from './Home.module.scss'
-import {useSelector, useDispatch, connect} from 'react-redux'
-import {addToppings, deleteToppings} from '../Actions'
+import { connect} from 'react-redux'
+import {addToppings, deleteToppings, addLocation, deleteLocation} from '../Actions'
 
 
 class Home extends Component {
@@ -22,6 +22,29 @@ class Home extends Component {
         }
         
     }
+    checkNorth = () => {
+        if(document.getElementById("N").checked){
+            document.getElementById("S").checked = false;
+            this.props.dispatch(deleteLocation(document.getElementById("S").value));
+            //setja inn í redux
+            this.props.dispatch(addLocation(document.getElementById("N").value));
+        }else{
+            //eyða frá redux
+            this.props.dispatch(deleteLocation(document.getElementById("N").value));
+        }
+    }
+    checkSouth = () => {
+        if(document.getElementById("S").checked){
+            document.getElementById("N").checked = false;
+            this.props.dispatch(deleteLocation(document.getElementById("N").value));
+            //setja inn í redux
+            this.props.dispatch(addLocation(document.getElementById("S").value));
+        }else{
+            //eyða frá redux
+            this.props.dispatch(deleteLocation(document.getElementById("S").value));
+        }
+    }
+
     componentDidMount = () => {
         fetch('http://206.189.19.13:5000/api/Toppings')
         .then(res => res.json())
@@ -42,6 +65,13 @@ class Home extends Component {
         }
         return(
             <div className={styles.navContainer}>
+            <div>
+                <h1>Hvaðan viltu panta pizzu?</h1>
+                <div>
+                    <input type="checkbox" key="N" id="N" value="norðuland" onChange={this.checkNorth} /> Akureyri
+                    <input type="checkbox" key="S" id="S" value="höfuðborgarsvæðið" onChange={this.checkSouth} /> Höfuðborgarsvæðið
+                </div>
+            </div>
             <h1> Hvað má bjóða þér á pizzuna þína? </h1>
             <div className={styles.navContainer}> 
                 {items}

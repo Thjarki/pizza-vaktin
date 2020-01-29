@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './Components/Header/Header'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomePage from './Components/Home/Home'
-import logo from './logo.svg';
 import './App.scss';
 import PizzaPrices from './Components/PizzaPrices';
 import AboutPizzaPlaces from './Components/AboutPizzaPlaces';
