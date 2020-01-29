@@ -1,25 +1,24 @@
-import React, { Component, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import {useSelector, useDispatch, connect} from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import {useSelector} from 'react-redux'
+import Card from "./PizzaCard/Card";
+
 
 
 function PizzaPrices () {
 
      const toppings = useSelector(state => state.toppings);
+     const location = useSelector(state => state.location);
     
      let [pizzas, setpizza] = useState( {
          data : []
      } )
-     var pizza = { 
-         data : []
-     }
 
      var link = 'http://206.189.19.13:5000/api/Pizza?';
-     for(var i = 0; i < toppings.length; i++){
-         if(i === toppings.length-1){
-            link += "filter-topping=" + toppings[i];
+     for(var o = 0; o < toppings.length; o++){
+         if(o === toppings.length-1){
+            link += "filter-topping=" + toppings[o];
          }else {
-            link += "filter-topping=" + toppings[i] + "&";
+            link += "filter-topping=" + toppings[o] + "&";
          }
      }
 
@@ -27,15 +26,15 @@ function PizzaPrices () {
         fetch(link)
         .then(res => res.json())
         .then((data) => {
-            console.log(link)
-            console.log(data)
             setpizza(data)
-            console.log(pizza)
+            console.log(link)
         })
         .catch(console.log)
     },[])
     const items = []
+    var pushItems = {};
     for(var i = 0; i < pizzas.data.length; i++){
+        if(pizzas.data[i].company.region === location[0] || location.length === 0){
         var tempTopping = '';   
         for(var k = 0; k < pizzas.data[i].toppings.length; k++){
             if(k === pizzas.data[i].toppings.length - 1){
@@ -46,28 +45,58 @@ function PizzaPrices () {
             
         }
         var tempName = pizzas.data[i].name;
+        var tempCompany = pizzas.data[i].company.name;
         var tempMidPrice = pizzas.data[i].prices.size_m;
         var tempLargePrice = pizzas.data[i].prices.size_l;
         var tempSmallPrice = pizzas.data[i].prices.size_s;
         var tempXLPrice = pizzas.data[i].prices.size_xl;
-        items.push( <h1> {tempName} </h1>);
-    items.push( <p> Álegg : {tempTopping}</p>)
-        if(tempSmallPrice != null){
-            items.push(<p>verð á lítili pizzu : {tempSmallPrice}</p>)
+        
+        if(tempSmallPrice === null){
+            tempSmallPrice = "Ekki í boði"
         }
-        if(tempMidPrice != null){
-            items.push(<p>verð á miðlungs pizzu : {tempMidPrice}</p>)
+        if(tempMidPrice === null){
+            tempMidPrice = "Ekki í boði"
         }
-        if(tempLargePrice != null){
-            items.push(<p>verð á stórri pizzu : {tempLargePrice}</p>)
+        if(tempLargePrice === null){
+            tempLargePrice = "Ekki í boði"
         }
-        if(tempXLPrice != null){
-            items.push(<p>verð á extra stórri pizzu : {tempXLPrice}</p>)
+        if(tempXLPrice === null){
+            tempXLPrice = "Ekki í boði"
         }
+        pushItems = {
+            "name" : tempName,
+            "companyName" : tempCompany,
+            "topping" : tempTopping,
+            "smallPrice" : tempSmallPrice,
+            "midPrice" : tempMidPrice,
+            "bigPrice" : tempLargePrice,
+            "xlPrice" : tempXLPrice
+        }
+
+        items.push(pushItems);
+        }
+        
     }
+    let duration = 0.2;
+    const cards = items.map(emp => {
+        duration += 0.3;
+        return (
+            <Card 
+                key={emp.name}
+                name={emp.name}
+                companyName={emp.companyName}
+                topping={emp.topping}
+                smallPrice={emp.smallPrice}
+                midPrice={emp.midPrice}
+                bigPrice={emp.bigPrice}
+                xlPrice={emp.xlPrice}
+                animateDuration={duration}
+            />
+        )
+    });
         return(
-            <div>
-                {items}
+            <div className="pizzaCardContainer">
+                {cards}
             </div>  
         )
 }

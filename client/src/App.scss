@@ -32,3 +32,11 @@ main {
 .placeHeader{
   text-align: center;
 }
+.pizzaCardContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  
+}

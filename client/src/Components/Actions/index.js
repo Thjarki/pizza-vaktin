@@ -10,3 +10,17 @@ export const deleteToppings = (topping) => {
         payload: topping
     }
 }
+
+export const addLocation = (location) => {
+    return {
+        type: 'ADDLOCATION',
+        payload: location
+    }
+}
+export const deleteLocation = (location) => {
+    return {
+        type: 'DELETELOCATION',
+        payload: location
+    }
+}
+
