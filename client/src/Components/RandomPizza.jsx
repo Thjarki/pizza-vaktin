@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Card from "./PizzaCard/Card";
 
-// TODO: gera styling, bæta við að geta valið hvort þú villt heimsennt eða ekki, geta valið Akureyri eða Reykjavík
+// TODO: gera styling, bæta við að geta valið hvort þú villt heimsennt eða ekki
 class RandomPizza extends Component {
   state = {
     pizzas: [],

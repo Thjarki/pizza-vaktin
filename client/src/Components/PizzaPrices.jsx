@@ -5,7 +5,7 @@ import Card from "./PizzaCard/Card";
 function PizzaPrices() {
   const toppings = useSelector(state => state.toppings);
   const location = useSelector(state => state.location);
-
+  const specificTopping = useSelector(state => state.specifictoppings);
   let [pizzas, setpizza] = useState({
     data: []
   });
@@ -24,16 +24,16 @@ function PizzaPrices() {
       .then(res => res.json())
       .then(data => {
         setpizza(data);
-        console.log(link);
       })
       .catch(console.log);
   }, []);
+
   const items = [];
   var pushItems = {};
   for (var i = 0; i < pizzas.data.length; i++) {
     if (
       pizzas.data[i].company.region === location[0] ||
-      location.length === 0
+      location.length === 0 || pizzas.data[i].company.name === "Dominos"
     ) {
       var tempTopping = "";
       for (var k = 0; k < pizzas.data[i].toppings.length; k++) {
@@ -71,8 +71,13 @@ function PizzaPrices() {
         bigPrice: tempLargePrice,
         xlPrice: tempXLPrice
       };
-
+      if(specificTopping[0] === "meira"){
+        items.push(pushItems);
+      }
+      else if (specificTopping[0] === "akkurat" && pizzas.data[i].toppings.length === toppings.length){
+        
       items.push(pushItems);
+      }
     }
   }
   let duration = 0.2;
