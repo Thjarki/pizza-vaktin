@@ -24,3 +24,21 @@ export const deleteLocation = (location) => {
     }
 }
 
+export const addSpecificTopping = (location) => {
+    return {
+        type: 'ADDSPECIFICTOPPING',
+        payload: location
+    }
+}
+export const deleteSpecificTopping = (location) => {
+    return {
+        type: 'DELETESPECIFICTOPPING',
+        payload: location
+    }
+}
+export const emptyToppingArray = (topping) => {
+    return {
+        type: 'EMPTYTOPPINGARRAY',
+        payload: topping
+    }
+}

@@ -1,19 +1,16 @@
-const toppingList = (state = [], action) => {
+const specificToppingList = (state = [], action) => {
     switch(action.type){
-        case 'ADDTOPPING':
+        case 'ADDSPECIFICTOPPING':
             if(!state.includes(action.payload)){
                 state.push(action.payload);
             }
             return state;
-        case 'DELETETOPPING':
+        case 'DELETESPECIFICTOPPING':
             var index = state.indexOf(action.payload);
             if (index !== -1) state.splice(index, 1);
-            return state;
-        case 'EMPTYTOPPINGARRAY':
-            state.splice(0,state.length)
             return state;
         default: 
             return state;
     }
 }
-export default toppingList;
+export default specificToppingList;
