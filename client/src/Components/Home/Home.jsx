@@ -3,29 +3,19 @@ import { Link } from "react-router-dom";
 import styles from "./Home.module.scss";
 import { connect } from "react-redux";
 import {
-  addToppings,
-  deleteToppings,
   addLocation,
   deleteLocation,
-  deleteSpecificTopping,
-  addSpecificTopping,
-  emptyToppingArray
+  emptyToppingArray,
+  setSpecificTopping
 } from "../Actions";
 
 import Checkbox from "../Checkbox/Checkbox";
+import Category from "../Category/Category";
 
 class Home extends Component {
   state = {
     toppings: {
       data: []
-    }
-  };
-  checkToppings = event => {
-    // TODO: handle "empty" Should be fixed by backend!
-    if (event.target.checked) {
-      this.props.dispatch(addToppings(event.target.name));
-    } else {
-      this.props.dispatch(deleteToppings(event.target.name));
     }
   };
 
@@ -59,42 +49,12 @@ class Home extends Component {
       this.props.dispatch(deleteLocation(document.getElementById("S").value));
     }
   };
-  checkLessToppings = () => {
-    if (document.getElementById("akkurat").checked) {
-      document.getElementById("meira").checked = false;
-      this.props.dispatch(
-        deleteSpecificTopping(document.getElementById("meira").value)
-      );
-      //setja inn í redux
-      this.props.dispatch(
-        addSpecificTopping(document.getElementById("akkurat").value)
-      );
-    } else {
-      //eyða frá redux
-      this.props.dispatch(
-        deleteSpecificTopping(document.getElementById("akkurat").value)
-      );
-    }
+
+  exact = event => {
+    this.props.dispatch(setSpecificTopping(event.target.checked));
   };
-  checkMoreToppings = () => {
-    if (document.getElementById("meira").checked) {
-      document.getElementById("akkurat").checked = false;
-      this.props.dispatch(
-        deleteSpecificTopping(document.getElementById("akkurat").value)
-      );
-      //setja inn í redux
-      this.props.dispatch(
-        addSpecificTopping(document.getElementById("meira").value)
-      );
-    } else {
-      //eyða frá redux
-      this.props.dispatch(
-        deleteSpecificTopping(document.getElementById("meira").value)
-      );
-    }
-  };
+
   componentDidMount = () => {
-    this.checkMoreToppings();
     this.props.dispatch(emptyToppingArray(" "));
     fetch("https://www.eybbus.com/api/Toppings")
       .then(res => res.json())
@@ -105,17 +65,25 @@ class Home extends Component {
   };
 
   render() {
-    const items = [];
-    console.log(this.state.toppings.data.length);
-    for (var i = 0; i < this.state.toppings.data.length; i++) {
-      var temp = this.state.toppings.data[i].name;
-      items.push(
-        <Checkbox
-          value={this.state.toppings.data[i].name}
-          onChange={this.checkToppings}
+    const { data } = this.state.toppings;
+
+    const gat = [];
+    var i,
+      j,
+      temparray,
+      chunk = 33;
+    for (i = 0, j = data.length; i < j; i += chunk) {
+      temparray = data.slice(i, i + chunk);
+      gat.push(
+        <Category
+          key={i + chunk}
+          onClick
+          name={"Category: "}
+          list={temparray}
         />
       );
     }
+
     return (
       <div className={styles.navContainer}>
         <div>
@@ -128,31 +96,11 @@ class Home extends Component {
           </div>
         </div>
         <div>
-          <h1>
-            Viltu bara fá það sem þú velur á pizzuna eða er í lagi að það séu
-            fleiri álegg?
-          </h1>
-          {/* Should be radio button */}
-          <input
-            type="checkbox"
-            key="akkurat"
-            id="akkurat"
-            value="akkurat"
-            onChange={this.checkLessToppings}
-          />{" "}
-          Bara fá það sem ég vel
-          <input
-            type="checkbox"
-            key="meira"
-            id="meira"
-            value="meira"
-            checked="true"
-            onChange={this.checkMoreToppings}
-          />{" "}
-          Ég vill að það séu fleiri álegg
+          <Checkbox value={"Nákvæm leit"} onChange={this.exact} />
         </div>
         <h1> Hvað má bjóða þér á pizzuna þína? </h1>
-        <div className={styles.navContainer}>{items}</div>
+        <div className={styles.categoryContainer}>{gat}</div>
+
         <div className={styles.navContainer}>
           <Link className={styles.navbuttons} to="/pizzaverd">
             Finna Pizzu

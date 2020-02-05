@@ -6,7 +6,7 @@ const Checkbox = ({ value, onChange }) => {
     value = "empty";
   }
   return (
-    <div className={styles.wrapper}>
+    <section className={styles.wrapper}>
       <input
         className={styles.checkbox}
         type="checkbox"
@@ -15,7 +15,7 @@ const Checkbox = ({ value, onChange }) => {
         onChange={e => onChange(e)}
       />
       <label htmlFor={value}>{value}</label>
-    </div>
+    </section>
   );
 };
 

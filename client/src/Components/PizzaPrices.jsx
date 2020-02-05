@@ -33,7 +33,8 @@ function PizzaPrices() {
   for (var i = 0; i < pizzas.data.length; i++) {
     if (
       pizzas.data[i].company.region === location[0] ||
-      location.length === 0 || pizzas.data[i].company.name === "Dominos"
+      location.length === 0 ||
+      pizzas.data[i].company.name === "Dominos"
     ) {
       var tempTopping = "";
       for (var k = 0; k < pizzas.data[i].toppings.length; k++) {
@@ -71,12 +72,13 @@ function PizzaPrices() {
         bigPrice: tempLargePrice,
         xlPrice: tempXLPrice
       };
-      if(specificTopping[0] === "meira"){
+      if (!specificTopping) {
         items.push(pushItems);
-      }
-      else if (specificTopping[0] === "akkurat" && pizzas.data[i].toppings.length === toppings.length){
-        
-      items.push(pushItems);
+      } else if (
+        specificTopping &&
+        pizzas.data[i].toppings.length === toppings.length
+      ) {
+        items.push(pushItems);
       }
     }
   }
