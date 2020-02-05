@@ -1,0 +1,74 @@
+$unchecked-color: #ffffff80;
+$checked-color: #08415c;
+$hover-color: #ffffffb3;
+$border-color: #ffffff00;
+$border-hover-color: #ffffff80;
+
+.wrapper {
+  display: inline-block;
+  align-items: center;
+}
+
+.checkbox {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.checkbox + label {
+  display: block;
+  position: relative;
+  border: 1px $border-color solid;
+  padding: 5px 15px;
+}
+
+.checkbox:hover + label {
+  border: 1px $border-hover-color solid;
+}
+
+.checkbox + label::before {
+  content: "";
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  vertical-align: bottom;
+  transition: all 0.2s;
+}
+
+.checkbox:hover + label::before {
+  background: $hover-color;
+}
+.checkbox:checked + label::before {
+  background: $checked-color;
+  transition: all 0.2s;
+}
+
+.checkbox + label::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 18px;
+  border-left: 2px solid #eee;
+  border-bottom: 2px solid #eee;
+  height: 6px;
+  width: 13px;
+  transform: rotate(-45deg);
+  opacity: 0;
+}
+
+.checkbox:checked + label::after {
+  opacity: 1;
+  transition: all 0.2s;
+}
+
+.checkbox:focus + label::before {
+  outline: 0;
+  box-shadow: 0 0px 8px #5e9ed6;
+}
