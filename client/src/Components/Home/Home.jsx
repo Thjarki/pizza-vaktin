@@ -66,20 +66,25 @@ class Home extends Component {
 
   render() {
     const { data } = this.state.toppings;
-
+    const filters = ["sósur og krydd", "ostur", "kjöt", "grænt", "ýmislegt", null];
     const gat = [];
     var i,
-      j,
-      temparray,
-      chunk = 33;
-    for (i = 0, j = data.length; i < j; i += chunk) {
-      temparray = data.slice(i, i + chunk);
+      toppingsarray,
+      categoryname;
+    for(i = 0; i < filters.length; i++){
+      toppingsarray = data.filter(el => el.type === filters[i])
+      categoryname = filters[i]
+      if(filters[i] === null){
+        categoryname = "Óflokkað"
+      }
+      console.log(i);
+      
       gat.push(
         <Category
-          key={i + chunk}
+          key={i}
           onClick
-          name={"Category: "}
-          list={temparray}
+          name={categoryname + ": "}
+          list={toppingsarray}
         />
       );
     }
