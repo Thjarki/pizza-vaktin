@@ -33,7 +33,7 @@ function PizzaPrices() {
   for (var i = 0; i < pizzas.data.length; i++) {
     if (
       pizzas.data[i].company.region === location[0] ||
-      location.length === 0 ||
+      location.length === 0 || 
       pizzas.data[i].company.name === "Dominos"
     ) {
       var tempTopping = "";
@@ -82,6 +82,11 @@ function PizzaPrices() {
       }
     }
   }
+  var isEmpty = false;
+  if(items.length == 0)
+  {
+    isEmpty = true;
+  }
   let duration = 0.2;
   const cards = items.map(emp => {
     duration += 0.3;
@@ -99,6 +104,10 @@ function PizzaPrices() {
       />
     );
   });
-  return <div className="pizzaCardContainer">{cards}</div>;
+  if(isEmpty){
+    return <div><h1> Engar pizzur fundust með þessum leitarskilyrðum. </h1></div>
+  }else{  
+    return <div className="pizzaCardContainer">{cards}</div>;
+  }
 }
 export default PizzaPrices;
