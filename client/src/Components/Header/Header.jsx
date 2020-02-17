@@ -5,9 +5,9 @@ class Header extends Component {
   render() {
     return (
       <header>
-        <ul className={styles.navContainer}>
+        <nav className={styles.navContainer}>
           <Link className={styles.navbuttons} to="">
-            Heim
+            Leitin
           </Link>
           <Link className={styles.navbuttons} to="/pizzaStadir">
             Pizza staðir
@@ -18,7 +18,7 @@ class Header extends Component {
           <Link className={styles.navbuttons} to="/samstarfsadilar">
             Um okkur
           </Link>
-        </ul>
+        </nav>
       </header>
     );
   }
