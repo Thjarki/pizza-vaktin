@@ -6,7 +6,6 @@ class RandomPizza extends Component {
   state = {
     pizzas: [],
     buttonClicked: false,
-    rPizza: null,
     rPizzaName: null,
     rPizzaTopping: null,
     rPizzaMidPrice: null,
@@ -16,64 +15,42 @@ class RandomPizza extends Component {
     rPizzaCompany: null,
     location: "ekki valið"
   };
+
   componentDidMount = () => {
     fetch("https://www.eybbus.com/api/Pizza")
       .then(res => res.json())
-      .then(data => {
-        this.setState({ pizzas: data });
+      .then(response => {
+        this.setState({ pizzas: response.data });
       })
       .catch(console.log);
   };
-  getRandom = () => {
-    var rand = Math.floor(Math.random() * this.state.pizzas.data.length);
 
-    while (
-      this.state.pizzas.data[rand].company.region !== this.state.location
-    ) {
-      rand = Math.floor(Math.random() * this.state.pizzas.data.length);
+  getRandom = () => {
+    const { pizzas } = this.state;
+    var rand = Math.floor(Math.random() * pizzas.length);
+
+    while (pizzas[rand].company.region !== this.state.location) {
+      rand = Math.floor(Math.random() * pizzas.length);
       if (this.state.location === "ekki valið") {
         break;
       }
     }
-    var tempToppings = "";
-    for (var i = 0; i < this.state.pizzas.data[rand].toppings.length; i++) {
-      if (i === this.state.pizzas.data[rand].toppings.length - 1) {
-        tempToppings += this.state.pizzas.data[rand].toppings[i].name;
-      } else {
-        tempToppings += this.state.pizzas.data[rand].toppings[i].name + ", ";
-      }
-    }
 
-    var tempSizeM = this.state.pizzas.data[rand].prices.size_m;
-    var tempSizeS = this.state.pizzas.data[rand].prices.size_s;
-    var tempSizeL = this.state.pizzas.data[rand].prices.size_l;
-    var tempSizeXl = this.state.pizzas.data[rand].prices.size_xl;
-
-    if (tempSizeM === null) {
-      tempSizeM = "Ekki í Boði";
-    }
-    if (tempSizeS === null) {
-      tempSizeS = "Ekki í Boði";
-    }
-    if (tempSizeL === null) {
-      tempSizeL = "Ekki í Boði";
-    }
-    if (tempSizeXl === null) {
-      tempSizeXl = "Ekki í Boði";
-    }
+    let tempToppings = pizzas[rand].toppings.map(el => el.name);
+    tempToppings = tempToppings.join(", ");
 
     this.setState({
-      rPizza: this.state.pizzas.data[rand],
-      rPizzaName: this.state.pizzas.data[rand].name,
+      rPizzaName: pizzas[rand].name,
       buttonClicked: true,
       rPizzaTopping: tempToppings,
-      rPizzaMidPrice: tempSizeM,
-      rPizzaSmallPrice: tempSizeS,
-      rPizzaBigPrice: tempSizeL,
-      rPizzaXlPrice: tempSizeXl,
-      rPizzaCompany: this.state.pizzas.data[rand].company.name
+      rPizzaSmallPrice: pizzas[rand].prices.size_s || undefined,
+      rPizzaMidPrice: pizzas[rand].prices.size_m || undefined,
+      rPizzaBigPrice: pizzas[rand].prices.size_l || undefined,
+      rPizzaXlPrice: pizzas[rand].prices.size_xl || undefined,
+      rPizzaCompany: pizzas[rand].company.name
     });
   };
+
   checkNorth = () => {
     if (document.getElementById("N").checked) {
       document.getElementById("S").checked = false;
@@ -86,6 +63,7 @@ class RandomPizza extends Component {
       });
     }
   };
+
   checkSouth = () => {
     if (document.getElementById("S").checked) {
       document.getElementById("N").checked = false;
@@ -98,6 +76,7 @@ class RandomPizza extends Component {
       });
     }
   };
+
   render() {
     const {
       rPizzaName,
@@ -109,34 +88,7 @@ class RandomPizza extends Component {
       rPizzaXlPrice,
       rPizzaCompany
     } = this.state;
-    var items = [
-      {
-        name: rPizzaName,
-        companyName: rPizzaCompany,
-        topping: rPizzaTopping,
-        smallPrice: rPizzaSmallPrice,
-        midPrice: rPizzaMidPrice,
-        bigPrice: rPizzaBigPrice,
-        xlPrice: rPizzaXlPrice
-      }
-    ];
-    var cards;
-    if (buttonClicked) {
-      cards = items.map(emp => {
-        return (
-          <Card
-            key={emp.name}
-            name={emp.name}
-            companyName={emp.companyName}
-            topping={emp.topping}
-            smallPrice={emp.smallPrice}
-            midPrice={emp.midPrice}
-            bigPrice={emp.bigPrice}
-            xlPrice={emp.xlPrice}
-          />
-        );
-      });
-    }
+
     return (
       <div>
         <h1>Smelltu á takkann til að fá handahófskennda pizzu</h1>
@@ -161,11 +113,21 @@ class RandomPizza extends Component {
             Höfuðborgarsvæðið
           </div>
         </div>
-        <a href="#" onClick={this.getRandom}>
-          Finna pizzu!
-        </a>
+        <button onClick={this.getRandom}>Finna Pizzu</button>
         <div className="pizzaCardContainer">
-          {buttonClicked ? <h2>{cards}</h2> : ""}
+          {buttonClicked ? (
+            <Card
+              name={rPizzaName}
+              companyName={rPizzaCompany}
+              topping={rPizzaTopping}
+              smallPrice={rPizzaSmallPrice}
+              midPrice={rPizzaMidPrice}
+              bigPrice={rPizzaBigPrice}
+              xlPrice={rPizzaXlPrice}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     );
