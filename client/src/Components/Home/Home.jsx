@@ -204,31 +204,37 @@ class Home extends Component {
   render() {
     console.log(this.state.buttonClicked)
     const { data } = this.state.toppings;
-    const filters = ["sósur og krydd", "ostur", "kjöt", "grænt", "ýmislegt", null];
+    const filters = [
+      "sósur og krydd",
+      "ostur",
+      "kjöt",
+      "grænt",
+      "ýmislegt",
+      null
+    ];
     const gat = [];
-    var i,
-      toppingsarray,
-      categoryname;
-    for(i = 0; i < filters.length; i++){
-      toppingsarray = data.filter(el => el.type === filters[i])
-      categoryname = filters[i]
-      if(filters[i] === null){
-        categoryname = "Óflokkað"
+    var toppingsarray, categoryname;
+    for (let i = 0; i < filters.length; i++) {
+      toppingsarray = data.filter(el => el.type === filters[i]);
+      categoryname = filters[i];
+      if (filters[i] === null) {
+        categoryname = "Óflokkað";
       }
+<<<<<<< HEAD
      
       
+=======
+      console.log(i);
+
+>>>>>>> 5c70c04ea84eb32f421db9f7da5c66b36fa60516
       gat.push(
-        <Category
-          key={i}
-          onClick
-          name={categoryname + ": "}
-          list={toppingsarray}
-        />
+        <Category key={i} onClick name={categoryname} list={toppingsarray} />
       );
     }
 
     return (
       <div className={styles.navContainer}>
+        <h1>Pizza leit</h1>
         <div>
           <h1>Hvaðan viltu panta pizzu?</h1>
           <div onChange={e => this.radioChange(e)}>
